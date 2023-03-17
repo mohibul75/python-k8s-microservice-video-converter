@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: auth
+  labels:
+    app: auth
+spec:
+  replicas: 2
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app: auth
+  strategy:
+    type: RollinUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 1
+    revisionHistoryLimit: 2
+    progressDeadlineSeconds: 300
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: purbo75/auth
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: auth-configmap
+            - secretRef:
+                name: auth-secret
+status:
+  replicas: 2
+  updatedReplicas: 2
+  readyReplicas: 2
+  availableReplicas: 2

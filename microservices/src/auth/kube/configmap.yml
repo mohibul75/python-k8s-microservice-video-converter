@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: COnfigMap
+metadata:
+  name: auth-configmap
+data:
+  MYSQL_USER: host.minikube.internal
+  MYSQL_USER: auth_user
+  MYSQL_DB: auth
+  MYSQL_PORT: "3306"
